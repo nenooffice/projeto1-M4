@@ -48,7 +48,7 @@ $ npm run start:prod
 ## Clone the app
 
 ```bash
-git clone https://github.com/nenooffice/projeto1-M4.git
+git clone git@github.com/nenooffice/projeto1-M4.git
 ```
 
 ## Test
