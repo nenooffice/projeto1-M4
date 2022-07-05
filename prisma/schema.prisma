@@ -47,4 +47,3 @@ model Category {
   products Product[]
   @@map("category")
 }
-

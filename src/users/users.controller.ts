@@ -7,38 +7,50 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from '@prisma/client';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/users.entity';
+import { UsersService } from './users.service';
+
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get()
-  @ApiOperation({
-    summary: 'Lista de todos os usuários',
-  })
-  getAll(): Promise<User[]> {
-    return this.usersService.getAll();
-  }
-
-  @Get(':id')
-  @ApiOperation({
-    summary: 'Retorna usuário único.',
-  })
-  getById(@Param('id') id: string): Promise<User> {
-    return this.usersService.getById(id);
-  }
-
   @Post()
   @ApiOperation({
     summary: 'Cria um novo usuário',
   })
-  create(@Body() dto: CreateUserDto): Promise<User> {
+  create(@Body() dto: CreateUserDto): Promise<User | void> {
     return this.usersService.create(dto);
+  }
+
+  @Get()
+  @ApiOperation({
+    summary: 'Lista todos os usuários',
+  })
+  findAll(): Promise<User[]> {
+    return this.usersService.findAll();
+  }
+
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Lista usuário por id',
+  })
+  findOne(@Param('id') id: string): Promise<User> {
+    return this.usersService.findOne(id);
+  }
+
+  @Patch(':id')
+  @ApiOperation({
+    summary: 'Atualizar um usuário',
+  })
+  update(
+    @Param('id') id: string,
+    @Body() dto: UpdateUserDto,
+  ): Promise<User | void> {
+    return this.usersService.update(id, dto);
   }
 
   @Delete(':id')
@@ -47,13 +59,5 @@ export class UsersController {
   })
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
-  }
-
-  @Patch(':id')
-  @ApiOperation({
-    summary: 'Atualizar o usuário.',
-  })
-  update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
-    return this.usersService.update(id, dto);
   }
 }

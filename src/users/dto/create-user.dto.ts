@@ -26,10 +26,10 @@ export class CreateUserDto {
   @IsString()
   @MinLength(8)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'Senha muito fraca',
+    message: 'Too weak',
   })
   @ApiProperty({
-    example: 'admin1234',
+    example: '@Admin1234',
     description: 'Senha do usuário',
   })
   password: string;
