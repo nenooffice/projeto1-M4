@@ -29,7 +29,7 @@ export class UsersService {
     return this.prisma.user.create({ data });
   }
 
-  delete(id: string) {
+  remove(id: string) {
     return this.prisma.user.delete({
       where: { id },
       select: { name: true, email: true },
